@@ -1,22 +1,21 @@
 package hivebox
 
 import (
+	"encoding/json"
 	"fmt"
-	"io"
-	"os"
+	"net/http"
+	"time"
 )
 
 const version = "0.0.1"
 
-func PrintVersion(fd ...io.Writer) {
-	var out io.Writer
-	switch len(fd) {
-	case 0:
-		out = os.Stdout
-	case 1:
-		out = fd[0]
-	default:
-		panic("too many params")
-	}
-	fmt.Fprint(out, version)
+func GetVersion(w http.ResponseWriter, req *http.Request) {
+	json.NewEncoder(w).Encode(version)
+}
+
+func CreateUrl() string {
+	tenHoursAgo := time.Now().Add(-10 * time.Hour)
+	formattedTime := tenHoursAgo.Format(time.RFC3339)
+	url := fmt.Sprintf("https://api.opensensemap.org/boxes/data?phenomenon=temperature&bbox=-180,-90,180,90&date=%s&format=json", formattedTime)
+	return url
 }

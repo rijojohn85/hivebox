@@ -4,4 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-CMD ["go", "run", "main.go"]
+RUN go build -o hivebox-binary
+
+CMD ["./hivebox-binary"]
