@@ -1,0 +1,18 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build docker image
+        run: docker build -t rijojohn85-docker-hivebox .
+      - name: Run test
+        run: docker run -e CI=true rijojohn85-docker-hivebox go test rijojohn85/hivebox/hivebox
