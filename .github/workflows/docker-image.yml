@@ -12,7 +12,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Build docker image
+      - name: test docker image
         run: docker build -t rijojohn85-docker-hivebox .
       - name: Run test
         run: docker run -e CI=true rijojohn85-docker-hivebox go test ./hivebox
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build docker image
+        run: docker build -t rijojohn85-docker-hivebox .
+      - name: Run build
+        run: docker run rijojohn85-docker-hivebox
